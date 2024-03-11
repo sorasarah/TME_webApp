@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# ---- Promo
 class ProduitEnPromotion(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
@@ -9,8 +9,7 @@ class ProduitEnPromotion(models.Model):
         ordering = ('tigID',)
 
 
-# ----Exercice 3 Indexer la liste de tous les produits avec le champs ’availability’
-# Create your models here.
+# ---- Availability
 class ProduitDisponible(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
@@ -18,7 +17,7 @@ class ProduitDisponible(models.Model):
     class Meta:
         ordering = ('tigID',)
         
-# ----Exercice 5 Etendre le webAPI
+# ---- Category
 class FishProduct(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
@@ -33,9 +32,10 @@ class CrustaceProduct(models.Model):
     class Meta:
         ordering = ('tigID',)
         
-class CoquillageProduct(models.Model):
+class FruitDeMerProduct(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tigID = models.IntegerField(default='-1')
 
     class Meta:
         ordering = ('tigID',)
+        

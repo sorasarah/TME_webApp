@@ -17,7 +17,7 @@ urlpatterns = [
     
     # ----Exercice 5 Etendre le webAPI
     path('poissons/', views.FishProductsList.as_view()),
-    # path('poisson/<int:pk>/', views.PoissonProductDetail.as_view()),
+    path('poisson/<int:pk>/', views.FishProductDetail.as_view()),
     # path('crustaces/', views.CrustacesProductsList.as_view()),
     # path('crustace/<int:pk>/', views.CrustaceProductDetail.as_view()),
     # path('coquillages/', views.CoquillagesProductsList.as_view()),
