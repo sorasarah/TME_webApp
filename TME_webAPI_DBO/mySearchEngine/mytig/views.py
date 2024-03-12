@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from mytig.config import baseUrl
 
-# Vue de la liste de tous les produits
+# Create your views here.
 class RedirectionListeDeProduits(APIView):
     def get(self, request, format = None):
         response = requests.get(baseUrl + 'products/')
@@ -12,7 +12,6 @@ class RedirectionListeDeProduits(APIView):
 #    def post(self, request, format=None):
 #        NO DEFITION of post --> server will return "405 NOT ALLOWED"
 
-# Vue d'un produit
 class RedirectionDetailProduit(APIView):
     def get(self, request, pk, format=None):
         try:
@@ -27,7 +26,7 @@ class RedirectionDetailProduit(APIView):
 #        NO DEFITION of delete --> server will return "405 NOT ALLOWED"
 
 
-# Vue de la liste des produits en pormotion
+
 from mytig.models import ProduitEnPromotion
 from mytig.serializers import ProduitEnPromotionSerializer
 from django.http import Http404
@@ -46,7 +45,6 @@ class PromoList(APIView):
 #    def post(self, request, format=None):
 #        NO DEFITION of post --> server will return "405 NOT ALLOWED"
 
-# Vue d'un produit en promotion
 class PromoDetail(APIView):
     def get_object(self, pk):
         try:
@@ -65,7 +63,8 @@ class PromoDetail(APIView):
 #    def delete(self, request, pk, format=None):
 #        NO DEFITION of delete --> server will return "405 NOT ALLOWED"
 
-# Vue des points de retraits
+# ------------Exercice 2 Clone de shipPoints-----------
+# Create your views here.
 class RedirectionShipPoints(APIView):
     def get(self, request, format = None):
         response = requests.get(baseUrl + 'shipPoints/')
@@ -74,7 +73,6 @@ class RedirectionShipPoints(APIView):
 #    def post(self, request, format=None):
 #        NO DEFITION of post --> server will return "405 NOT ALLOWED"
 
-# Vue d'un point de retrait 
 class RedirectionDetailShipPoint(APIView):
     def get(self, request, pk, format=None):
         try:
@@ -134,24 +132,11 @@ class FishProductsList(APIView):
     def get(self, request, format=None):
         res=[]
         for prod in FishProduct.objects.all():
+            serializer = FishProductSerializer(prod)
             if FishProductSerializer(data={'category' : '0'}):
-                serializer = FishProductSerializer(prod)
+            #(data={'tigID':str(product['id'])})
                 response = requests.get(baseUrl+'product/'+str(serializer.data['tigID'])+'/')
                 jsondata = response.json()
                 res.append(jsondata)
         return Response(res)
-    
-class FishProductDetail(APIView):
-    def get_object(self, pk):
-        try:
-            return FishProduct.objects.get(pk=pk)
-        except FishProduct.DoesNotExist:
-            raise Http404
-    def get(self, request, pk, format=None):
-        prod = self.get_object(pk)
-        serializer = FishProductSerializer(prod)
-        response = requests.get(baseUrl+'product/'+str(serializer.data['tigID'])+'/')
-        jsondata = response.json()
-        return Response(jsondata)
-    
 
