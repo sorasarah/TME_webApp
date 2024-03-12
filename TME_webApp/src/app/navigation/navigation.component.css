@@ -11,18 +11,45 @@
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
+.mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 1;
   background-color: #22659C;
+  height: 80px;
 }
 
 .mat-toolbar .logo {
-  width: 70%;
-  height: 100%;
-  margin-top: 10px;
+  width: 50%;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 2px solid #22659C;
 }
-a {
-  background-color: white;
+/* .mdc-list-item__primary-text{
+  color: white !important;
+} */
+
+a .navList{
+ color: white;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-weight: 700;
+
 }
+.menuNav{
+  margin-top: 40px;
+}
+a .navList span{
+  margin-left: 10px;
+}
+
+.userAdmin{
+  display: flex;
+}
+
+.navBar{
+  display: flex;
+  justify-content: space-between;
+}
+

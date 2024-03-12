@@ -4,13 +4,14 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar ><img src="../../assets/images/logo.png" alt="logo" class="logo"></mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#" class="navList"> <mat-icon>home</mat-icon>STOCK </a>
-      <a mat-list-item href="#"><mat-icon>dashboard</mat-icon>DASHBOARD</a>
+    <mat-nav-list class="menuNav">
+      <a mat-list-item routerLink="/stock" > <div class="navList" > <mat-icon>home</mat-icon> <span>STOCK</span></div></a>
+      <a mat-list-item routerLink="/dashboard" ><div class="navList" ><mat-icon>dashboard</mat-icon><span>DASHBOARD</span> </div></a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="navBar">
+      <div>
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -19,9 +20,13 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>TME_webApp</span>
+      <span>TME_WEBAPP</span>
+    </div>
+      <div class="userAdmin"><span>User Admin</span><mat-icon>woman</mat-icon></div>
     </mat-toolbar>
     <!-- Add Content Here -->
     <!-- <app-my-dashboard></app-my-dashboard> -->
+    <!-- <app-simple-table></app-simple-table> -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
