@@ -24,12 +24,13 @@ export interface ProductData {
 })
 
 export class SimpleTableComponent implements AfterViewInit, OnInit {
+  
+  editedElements: ProductData[] = [];
 
   constructor(private apiService: ApiService) { }
 
   displayedColumns: string[] = ['name', 'purchase_price', 'sold_price', 'quantity', 'description', 'availability'];
   dataSource = new MatTableDataSource<ProductData>();
-
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -77,9 +78,14 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
   }
 
   // Fonction edit d'un produit 
-  onEditProduct(product: ProductData) {
-    // Appeler la méthode de mise à jour du service API
-    this.updateProduct(product.id, { quantity: product.quantity, sold_price: product.sold_price });
+  onEditProduct(product: ProductData = {} as ProductData) {
+    
+    this.editedElements.forEach(element => {
+      this.updateProduct(product.id, { quantity: product.quantity, sold_price: product.sold_price });
+      console.log("Element modifié :", element);
+    });
+    // Une fois les modifications envoyées, videz la liste editedElements
+    this.editedElements = [];
   }
 
   // Fonction éditer après avoir cliqué sur un champs éditable
@@ -97,23 +103,16 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
       element.purchase_price = parseFloat(newValue)
     }
 
+    if (!this.editedElements.includes(element)) {
+      this.editedElements.push(element);
+    }
+
     element.isEdited = true;
     // this.dataSource.data.forEach(item => {
     //   if (item !== element) {
     //     item.isEdited = false;
     //   }
     // });
-  }
-
-  // Fonction qui édite plusieurs produits au même temps
-  updateAllProducts(newQuantity: number, newSoldPrice: number) {
-    // Parcourir toutes les données du tableau et mettre à jour la quantité pour chaque produit
-    this.dataSource.data.forEach(product => {
-      product.quantity = newQuantity;
-      product.sold_price = newSoldPrice;
-      // // Appeler la méthode de mise à jour pour chaque produit
-      // this.onEditProduct(product);
-    });
   }
 
 }
