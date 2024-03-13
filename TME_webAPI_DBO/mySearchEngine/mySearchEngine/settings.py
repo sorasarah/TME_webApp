@@ -77,12 +77,8 @@ WSGI_APPLICATION = 'mySearchEngine.wsgi.application'
 
 ## FrontEnd
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',  # Allow requests from Angular development server
-    'https://your-production-domain.com',  # Add your production domain here
-    
+    'http://localhost:4200',  # Allow requests from Angular development server    
 ]
-
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -132,9 +128,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",  # Ajoutez ici l'URL de votre application Angular
-]
 
 CORS_ALLOW_ALL_ORIGINS = True
