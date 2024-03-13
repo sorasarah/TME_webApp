@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'mytig.apps.MytigConfig',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'mySearchEngine.urls'
@@ -70,6 +73,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mySearchEngine.wsgi.application'
+
+## FrontEnd
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',  # Allow requests from Angular development server
+    'https://your-production-domain.com',  # Add your production domain here
+    
+]
+
 
 
 # Database
