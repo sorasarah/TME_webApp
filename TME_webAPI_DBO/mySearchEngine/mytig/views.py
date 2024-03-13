@@ -47,6 +47,29 @@ class ProductsList(APIView):
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     
+    def put(self, request, pk, format=None):
+        try:
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response(status=404)
+        serializer = ProductsListSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
+    def patch(self, request, pk, format=None):
+        try:
+            product = Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            return Response(status=404)
+        
+        serializer = ProductsListSerializer(product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    
     
 class TransactionsData(APIView):
     def get(self, request, format=None):

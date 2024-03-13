@@ -19,7 +19,7 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}`, data);
   }
 
-  putData(data:any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}`, data)
+  updateData(id: number, newData:any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/`, newData)
   }
 }
