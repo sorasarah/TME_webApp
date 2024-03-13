@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
+import { ApiService } from '../services/api.service';
 
 export interface ProductData {
+  date: string | number | Date;
   name: string;
   category: string;
   purchase_price: number;
@@ -20,13 +21,13 @@ export interface ProductData {
   styleUrls: ['./simple-table.component.css'],
 })
 
-export class SimpleTableComponent implements AfterViewInit {
+export class SimpleTableComponent implements AfterViewInit,OnInit {
   
-  constructor(private http: HttpClient) { }
-  
+  constructor(private apiService: ApiService) { }
 
   displayedColumns: string[] = ['name', 'purchase_price', 'sold_price', 'quantity', 'description', 'availability'];
   dataSource = new MatTableDataSource<ProductData>();
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -34,33 +35,36 @@ export class SimpleTableComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  getData() {
-    this.http.get<any>('http://127.0.0.1:8000/productsList/').subscribe(
-      (data) => {
-        // Assuming your API response is an array of products
-        this.dataSource.data = data;
+  ngOnInit(): void {
+    this.apiService.getData().subscribe(
+      (response) => {
+        console.log('API Response:', response);
+        // Handle response data
+        this.dataSource.data = response;
       },
       (error) => {
-        console.error('Error fetching data:', error);
+        console.error('API Error:', error);
+        // Handle error
       }
     );
   }
-}
 
-//   applyFilter(category: string | null) {
-//     console.log("hello filter");
-//     if (category != null) {
-//       this.dataSource.filterPredicate = (data: ProductData) => {
-//         return data.category === category;
-//       };
-//       this.dataSource.filter = ELEMENT_DATA.toString();
-//     } else {
-//       // Clear the filter
-//       this.dataSource.filterPredicate = () => true;
-//       this.dataSource.filter = '';
-//     }
-//   }
-// }
+
+
+  applyFilter(category: string | null) {
+    console.log("hello filter");
+    if (category != null) {
+      this.dataSource.filterPredicate = (data: ProductData) => {
+        return data.category === category;
+      };
+      this.dataSource.filter = this.dataSource.toString();
+    } else {
+      // Clear the filter
+      this.dataSource.filterPredicate = () => true;
+      this.dataSource.filter = '';
+    }
+  }
+}
 
 // const ELEMENT_DATA: ProductData[] = [
 //   {
