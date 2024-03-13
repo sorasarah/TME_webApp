@@ -75,6 +75,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mySearchEngine.wsgi.application'
 
+## FrontEnd
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',  # Allow requests from Angular development server
+    'https://your-production-domain.com',  # Add your production domain here
+    
+]
+
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
