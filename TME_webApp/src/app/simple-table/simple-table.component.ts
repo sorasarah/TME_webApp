@@ -79,10 +79,13 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
 
   // Fonction edit d'un produit 
   onEditProduct(product: ProductData = {} as ProductData) {
-    
-    this.editedElements.forEach(element => {
-      this.updateProduct(product.id, { quantity: product.quantity, sold_price: product.sold_price });
-      console.log("Element modifié :", element);
+    // on parcours le tableaux des éléments modifiés
+    this.editedElements.forEach(product => {
+      // on vérifie si l'élément a été modifié
+      if(product.isEdited){
+        this.updateProduct(product.id, { quantity: product.quantity, sold_price: product.sold_price });
+      }
+      console.log("Element modifié :", product);
     });
     // Une fois les modifications envoyées, videz la liste editedElements
     this.editedElements = [];

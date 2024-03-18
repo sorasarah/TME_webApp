@@ -1,4 +1,16 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password, check_password
+
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=180)
+    
+    def set_password(self, raw_password): 
+        self.password = make_password(raw_password)
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+        
 
 class Transaction(models.Model):
     id = models.AutoField(primary_key=True)

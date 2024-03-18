@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  private apiUrl = 'http://localhost:8000/'
+  private apiUrl = 'http://localhost:8000/productsList'
 
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}productsList/`);
+    return this.http.get<any>(`${this.apiUrl}/`);
   }
 
   postData(data:any): Observable<any> {
@@ -20,6 +20,8 @@ export class ApiService {
   }
 
   updateData(id: number, newData:any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${id}/`, newData)
+    // On vérifie si l'ID est défini
+    const url = id ? `${this.apiUrl}/${id}/` : this.apiUrl;
+    return this.http.patch<any>(url, newData)
   }
 }
