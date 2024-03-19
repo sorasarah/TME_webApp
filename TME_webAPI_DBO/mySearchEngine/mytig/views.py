@@ -67,29 +67,15 @@ class ProductsList(APIView):
     
     def patch(self, request,pk=None, format=None):
         try:
-            # Charger les identifiants des produits depuis le corps de la requête
-            products_ids = Product.objects.all()
-            print(products_ids) 
-            # Convertir les identifiants en liste d'entiers
-            # product_ids = [int(id) for id in ids]
-            
-            # # Récupérer les produits correspondants aux identifiants
-            # products = Product.objects.filter(pk__in=product_ids)
-            # # Vérifier si les produits existent
-            # if not products:
-            #     print('je suis dans if not product')
-            #     return Response("Aucun produit trouvé", status=status.HTTP_404_NOT_FOUND)
-            # Créer un dictionnaire avec les identifiants des produits et les données de chaque produit
-            # products_data = {}
+            data = json.loads(request.body)
+            print(data)
+            # data = {product['id']: product for product in data}
+            # ids = list(data.keys())
+            # products = Product.objects.filter(id__in=ids)
             # for product in products:
-            #     products_data[product.pk] = request.data
-            # # Initialiser le serializer avec les données des produits
-            # serializer = ProductsListSerializer(products, data=products_data, partial=True, many=True)
-            # # Valider et sauvegarder les données
-            # if serializer.is_valid():
-            #     serializer.save()
-            #     print('je suis dans serializer')
-            #     return Response(serializer.data)
+            #     productData = data[product.id]
+            #     print(productData)
+            
             print('je suis dans le try')
             # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             return Response(status=status.HTTP_100_CONTINUE)
