@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -17,4 +19,12 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
+    
+    constructor(private authService: AuthService, private router: Router) { }
+
+    logout(): void {
+      // Remove token from local storage on logout
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
 }

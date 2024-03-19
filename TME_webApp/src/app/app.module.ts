@@ -18,6 +18,8 @@ import { MatListModule } from '@angular/material/list';
 import { SimpleTableComponent } from './simple-table/simple-table.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AppComponent,
     MyDashboardComponent,
     NavigationComponent,
-    SimpleTableComponent
+    SimpleTableComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
