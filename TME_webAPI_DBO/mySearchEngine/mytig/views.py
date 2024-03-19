@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.http import Http404
 from mytig.models import Product
 from mytig.models import Transaction
-from mytig.serializers import ProductsListSerializer
+from mytig.serializers import ProductsListSerializer, ProductEditSerializer
 from mytig.serializers import TransactionsDataSerializer
 from django.http import JsonResponse
 import json
@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.core import serializers
 
 # classe d'authetifaction dans notre endPoints
 class LoginView(APIView):
@@ -65,23 +66,25 @@ class ProductsList(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
     
-    def patch(self, request,pk=None, format=None):
+    def patch(self, request, format=None):
         try:
             data = json.loads(request.body)
-            print(data)
-            # data = {product['id']: product for product in data}
-            # ids = list(data.keys())
-            # products = Product.objects.filter(id__in=ids)
-            # for product in products:
-            #     productData = data[product.id]
-            #     print(productData)
-            
-            print('je suis dans le try')
-            # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response(status=status.HTTP_100_CONTINUE)
-            
+            for product in data:
+                print(product.get('id'), "id") 
+                # print("product", product)
+                _product = Product.objects.get(pk=product.get('id'))
+                # print(_product, " from model")
+                serializer = ProductEditSerializer(_product, data=product, partial=True)
+                # print(serializers.__repr__)
+                if serializer.is_valid():
+                    print("ok for", product)
+                    serializer.save()    
+                else:
+                    print(serializer.errors)
+                    print("mon serializer ne fonctionne pas")
+            return Response(status=status.HTTP_207_MULTI_STATUS)  
         except Exception as e:
-            print('erreur')
+            print(e)
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     

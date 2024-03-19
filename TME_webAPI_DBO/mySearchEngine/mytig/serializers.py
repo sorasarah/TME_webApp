@@ -6,8 +6,13 @@ class ProductsListSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-        # fields = ['id']
-
+       
+class ProductEditSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['sold_price', 'quantity', 'promotion_percent']
+        # fields = ['quantity']
+        # fields = ['promotion_percent']
 
 class TransactionsDataSerializer(ModelSerializer):
     class Meta:
