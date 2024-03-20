@@ -10,7 +10,7 @@ class ProductsListSerializer(ModelSerializer):
 class ProductEditSerializer(ModelSerializer):
     class Meta:
         model = Product
-        fields = ['sold_price', 'quantity', 'promotion_percent']
+        fields = ['sold_price', 'quantity', 'promotion_percent', 'promotion_price', 'promotion_status', 'sold_number']
         # fields = ['quantity']
         # fields = ['promotion_percent']
 
