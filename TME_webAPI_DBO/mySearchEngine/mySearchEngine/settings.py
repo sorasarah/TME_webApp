@@ -41,10 +41,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'mytig.apps.MytigConfig',
     'corsheaders',
+    'rest_framework_simplejwt',
+    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,9 +81,7 @@ WSGI_APPLICATION = 'mySearchEngine.wsgi.application'
 
 ## FrontEnd
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',  # Allow requests from Angular development server
-    'https://your-production-domain.com',  # Add your production domain here
-    
+    'http://localhost:4200',  # Allow requests from Angular development server    
 ]
 
 ## JWT Login settings
@@ -147,3 +148,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ALLOW_ALL_ORIGINS = True

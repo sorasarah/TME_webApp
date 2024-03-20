@@ -4,3 +4,22 @@
 .styleButton button{
     margin-left: 10px;
 }
+
+.btnAction{
+    display: flex;
+    justify-content: end;
+    padding: 20px;
+}
+
+.btnAction button {
+    margin-left: 10px;
+}
+
+.editedValue {
+    color: #22659C;
+    font-weight: 800;
+}
+
+.center {
+    text-align: center;
+}
