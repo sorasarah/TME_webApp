@@ -1,5 +1,5 @@
 <!-- login.component.html -->
-<div class="body">
+<div class="body"> 
 <div class="login-container">
     <h2>Login</h2>
     <form (ngSubmit)="login()" #loginForm="ngForm">
@@ -13,6 +13,9 @@
       </div>
       <button type="submit" [disabled]="loginForm.invalid">Login</button>
     </form>
+    <div *ngIf="errorMessage" class="error-message">
+      Votre nom ou Mot de passe es incorrect
+   </div> 
   </div>
 </div>
   

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +29,16 @@ export class AuthService {
         tap(response => {
           // Store JWT token in local storage upon successful login
           localStorage.setItem('token', response.access);
+          // Store username in local storage or in a service
+          localStorage.setItem('username', credentials.username);
         })
       );
   }
-  
+
+  getUsername(): string | null {
+    // Retrieve username from local storage
+    return localStorage.getItem('username');
+  }
 
   logout(): void {
     // Remove token from local storage on logout

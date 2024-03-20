@@ -43,4 +43,13 @@
   button:hover {
     background-color: #0056b3;
   }
+
+  .error-message{
+    color: red;
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
