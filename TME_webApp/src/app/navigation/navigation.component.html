@@ -22,14 +22,14 @@
       </div>
       <div class="userAdmin">
         <!-- Show username if user is connected -->
-        <div>
-          <span *ngIf="isLoggedIn()">{{ username }} 
+        <div *ngIf="isLoggedIn()">
+          <span >{{ username }} 
             <mat-icon>woman</mat-icon>
             <span (click)="logout()">Logout</span></span>
         </div>
         <!-- Show login link if user is not connected -->
-        <div>
-          <span *ngIf="!isLoggedIn()">Bienvenue </span>
+        <div *ngIf="!isLoggedIn()">
+          <span >Bienvenue </span>
         </div>
       </div>
     </mat-toolbar>
