@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from mytig.models import Product
+from mytig.models import Product, User
 from mytig.models import Transaction
 
 class ProductsListSerializer(ModelSerializer):

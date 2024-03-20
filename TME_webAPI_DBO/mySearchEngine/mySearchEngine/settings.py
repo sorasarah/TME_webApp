@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'mytig.apps.MytigConfig',
     'corsheaders',
-    'rest_framework_simplejwt',
     
 ]
 
