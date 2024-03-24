@@ -34,6 +34,8 @@ class RedirectionDetailProduit(APIView):
             raise Http404
 #    def put(self, request, pk, format=None):
 #        NO DEFITION of put --> server will return "405 NOT ALLOWED"
+
+# --------------------------partie login-------------------------------
 import json
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -64,17 +66,6 @@ class LoginView(APIView):
         return Response({'message': 'This is a protected endpoint'})
         
 
-class ProductsList(APIView):
-    def get(self, request, format=None):
-        # Récupérer tous les produits depuis la base de données
-        products = Product.objects.all()
-        # Sérialiser les données des produits
-        serializer = ProductsListSerializer(products, many=True)
-        # Renvoyer la liste des produits sous forme de réponse JSON
-        return Response(serializer.data)
-
-from rest_framework.authtoken.models import Token
-
 class Login(APIView):
     def post(self, request):
         username = request.data.get('username')
@@ -90,6 +81,17 @@ class Login(APIView):
             # Authentication failed
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+class ProductsList(APIView):
+    # permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        # Récupérer tous les produits depuis la base de données
+        products = Product.objects.all()
+        # Sérialiser les données des produits
+        serializer = ProductsListSerializer(products, many=True)
+        # Renvoyer la liste des produits sous forme de réponse JSON
+        return Response(serializer.data)
+    
     def post(self, request):
         serializer = ProductsListSerializer(data=request.data)
         if serializer.is_valid():
@@ -97,41 +99,71 @@ class Login(APIView):
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
     
-    def put(self, request, pk, format=None):
-        try:
-            product = Product.objects.get(pk=pk)
-        except Product.DoesNotExist:
-            return Response(status=404)
-        
-        serializer = ProductsListSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
-    
     def patch(self, request, format=None):
         try:
             data = json.loads(request.body)
             for product in data:
-                print(product.get('id'), "id") 
-                # print("product", product)
                 _product = Product.objects.get(pk=product.get('id'))
-                # print(_product, " from model")
-                serializer = ProductEditSerializer(_product, data=product, partial=True)
-                # print(serializers.__repr__)
-                if serializer.is_valid():
-                    print("ok for", product)
-                    serializer.save()    
-                else:
-                    print(serializer.errors)
-                    print("mon serializer ne fonctionne pas")
+                print('avant', _product.quantity)
+                print('après', product["quantity"])
+                
+                # Condition pour initier le type de transaction + gestion des nombres des vendus
+                new_quantity = float(product["quantity"])
+                dif_quantity = float(new_quantity) - float(_product.quantity)
+                
+                # condition gestion des quantités --> cas de l'achat 
+                if new_quantity >= _product.quantity:
+                # if dif_quantity > 0 :
+                    print("je suis dans le if des Q>q donc achat ")
+                    transaction_price = dif_quantity * float(_product.purchase_price)
+                    print("Achat", dif_quantity, _product.purchase_price, transaction_price)
+                    # _product.sold_number = _product.sold_number
+                    print("nb de ventes", _product.sold_number)
+                    Transaction.objects.create(
+                            transaction = '1',
+                            transaction_price = transaction_price,
+                        )
+                    _product.save()
+                else : 
+                    print("je suis dans le else des Q>q")
+                    transaction_price = abs(dif_quantity * float(_product.sold_price))
+                    print(transaction_price)
+                    new_sold_quantity = abs(dif_quantity)
+                    _product.sold_number += new_sold_quantity
+                    print(_product.sold_number)
+                    Transaction.objects.create(
+                            transaction = '0',
+                            transaction_price = transaction_price,
+                        )
+                    _product.save()
+                      
+                # Gestion des calculs de promotions
+                if product["promotion_percent"] != 0 :
+                    _product.promotion_status = True
+                    _product.promotion_price = float(product['sold_price']) - ((float(product['sold_price']) * float(product['promotion_percent']))/ 100)
+                    _product.promotion_percent = float(product['promotion_percent'])  
+                    # print(_product.promotion_status, _product.promotion_price, _product.promotion_percent)
+                    _product.save()
+                else : 
+                    # print("je suis dans le else")
+                    _product.promotion_status = False
+                    _product.promotion_percent = 0
+                    _product.promotion_price = 0
+                    _product.save()
+            _product.quantity = product["quantity"]  
+            _product.sold_price = product["sold_price"] 
+            _product.save()
             return Response(status=status.HTTP_207_MULTI_STATUS)  
         except Exception as e:
             print(e)
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+from rest_framework.authtoken.models import Token
     
     
 class TransactionsData(APIView):
+    # permission_classes = [IsAuthenticated]
+    
     def get(self, request, format=None):
         transactionsData = Transaction.objects.all()
         serializer = TransactionsDataSerializer(transactionsData, many=True)
@@ -142,4 +174,17 @@ class TransactionsData(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+    
+    def put(self, request, pk, format=None):
+        try:
+            transaction = Transaction.objects.get(pk=pk)
+        except Transaction.DoesNotExist:
+            print('the update does not work')
+            return Response(status=404)
+            
+        serializer = TransactionsDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=400)
