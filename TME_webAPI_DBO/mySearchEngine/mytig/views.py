@@ -15,25 +15,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-# Create your views here.
-class RedirectionListeDeProduits(APIView):
-    def get(self, request, format = None):
-        response = requests.get(baseUrl + 'products/')
-        jsondata = response.json()
-        return Response(jsondata)
-#    def post(self, request, format=None):
-#        NO DEFITION of post --> server will return "405 NOT ALLOWED"
-
-class RedirectionDetailProduit(APIView):
-    def get(self, request, pk, format=None):
-        try:
-            response = requests.get(baseUrl+'product/'+str(pk)+'/')
-            jsondata = response.json()
-            return Response(jsondata)
-        except:
-            raise Http404
-#    def put(self, request, pk, format=None):
-#        NO DEFITION of put --> server will return "405 NOT ALLOWED"
 
 # --------------------------partie login-------------------------------
 import json
@@ -65,7 +46,6 @@ class LoginView(APIView):
     def protected_view(request):
         return Response({'message': 'This is a protected endpoint'})
         
-
 class Login(APIView):
     def post(self, request):
         username = request.data.get('username')
@@ -81,6 +61,7 @@ class Login(APIView):
             # Authentication failed
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+# --------------------------partie product-------------------------------
 class ProductsList(APIView):
     # permission_classes = [IsAuthenticated]
     
@@ -124,6 +105,7 @@ class ProductsList(APIView):
                             transaction_price = transaction_price,
                         )
                     _product.save()
+                # condition gestion des quantités --> cas de vente 
                 else : 
                     print("je suis dans le else des Q>q")
                     transaction_price = abs(dif_quantity * float(_product.sold_price))
@@ -150,6 +132,7 @@ class ProductsList(APIView):
                     _product.promotion_percent = 0
                     _product.promotion_price = 0
                     _product.save()
+                    
             _product.quantity = product["quantity"]  
             _product.sold_price = product["sold_price"] 
             _product.save()
@@ -160,7 +143,7 @@ class ProductsList(APIView):
 
 from rest_framework.authtoken.models import Token
     
-    
+# --------------------------partie transaction-------------------------------
 class TransactionsData(APIView):
     # permission_classes = [IsAuthenticated]
     
@@ -175,16 +158,4 @@ class TransactionsData(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
-    
-    def put(self, request, pk, format=None):
-        try:
-            transaction = Transaction.objects.get(pk=pk)
-        except Transaction.DoesNotExist:
-            print('the update does not work')
-            return Response(status=404)
-            
-        serializer = TransactionsDataSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+  
