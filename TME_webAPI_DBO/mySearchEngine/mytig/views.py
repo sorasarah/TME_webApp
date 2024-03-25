@@ -64,15 +64,7 @@ class LoginView(APIView):
         return Response({'message': 'This is a protected endpoint'})
         
 
-class ProductsList(APIView):
-    def get(self, request, format=None):
-        # Récupérer tous les produits depuis la base de données
-        products = Product.objects.all()
-        # Sérialiser les données des produits
-        serializer = ProductsListSerializer(products, many=True)
-        # Renvoyer la liste des produits sous forme de réponse JSON
-        return Response(serializer.data)
-
+    
 from rest_framework.authtoken.models import Token
 
 class Login(APIView):
@@ -90,6 +82,16 @@ class Login(APIView):
             # Authentication failed
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+class ProductsList(APIView):
+    def get(self, request, format=None):
+        # Récupérer tous les produits depuis la base de données
+        products = Product.objects.all()
+        # Sérialiser les données des produits
+        serializer = ProductsListSerializer(products, many=True)
+        # Renvoyer la liste des produits sous forme de réponse JSON
+        return Response(serializer.data)
+    # permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         serializer = ProductsListSerializer(data=request.data)
         if serializer.is_valid():
