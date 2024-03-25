@@ -93,7 +93,7 @@ class ProductsList(APIView):
                 dif_quantity = float(new_quantity) - float(_product.quantity)
                 
                 # condition gestion des quantités --> cas de l'achat 
-                if new_quantity >= _product.quantity:
+                if new_quantity > _product.quantity:
                 # if dif_quantity > 0 :
                     print("je suis dans le if des Q>q donc achat ")
                     transaction_price = dif_quantity * float(_product.purchase_price)

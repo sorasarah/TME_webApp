@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import {SoldGraphComponent} from '../sold-graph/sold-graph.component';
+import {MargeGraphComponent} from '../marge-graph/marge-graph.component';
 
 @Component({
   selector: 'app-my-dashboard',

@@ -137,12 +137,12 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
       window.alert('Un des champs comprends une valeur incorrect. Veuillez renseigner une valeur numérique ?');
     } else {
       this.onEditProduct()
-    }
+    } 
+  }
+//   clearInput(event: any): void {
+//   event.target.innerText = ''; // Clear the text content of the div
+// }
 
-  }
-  clearInput(event: any): void {
-    event.target.innerText = '';
-  }
 
   // Function cancel les modif
   OnCancel() {

@@ -21,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SoldGraphComponent } from './sold-graph/sold-graph.component';
+import { MargeGraphComponent } from './marge-graph/marge-graph.component';
+// import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { SoldGraphComponent } from './sold-graph/sold-graph.component';
     NavigationComponent,
     SimpleTableComponent,
     LoginComponent,
-    SoldGraphComponent
+    SoldGraphComponent,
+    MargeGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +52,7 @@ import { SoldGraphComponent } from './sold-graph/sold-graph.component';
     MatPaginatorModule,
     HttpClientModule,
     FormsModule,
-    NgChartsModule
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
