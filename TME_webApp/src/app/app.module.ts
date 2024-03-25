@@ -19,6 +19,8 @@ import {MatTableModule} from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { NgChartsModule } from 'ng2-charts';
+import { SoldGraphComponent } from './sold-graph/sold-graph.component';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { LoginComponent } from './login/login.component';
     MyDashboardComponent,
     NavigationComponent,
     SimpleTableComponent,
-    LoginComponent
+    LoginComponent,
+    SoldGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { LoginComponent } from './login/login.component';
     MatTableModule,
     MatPaginatorModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

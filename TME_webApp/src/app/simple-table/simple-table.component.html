@@ -35,8 +35,8 @@
 
     <ng-container matColumnDef="promotion_percent">
       <th mat-header-cell *matHeaderCellDef class="center">promo %</th>
-      <td mat-cell *matCellDef="let element" [class.editedValue]="element.isEdited" (input)="editField($event, element, 'promotion_price')" 
-      (blur)="OnBlurField($event, element, 'promotion_price')" contenteditable>{{element.promotion_percent}}</td>
+      <td mat-cell *matCellDef="let element" [class.editedValue]="element.isEdited" (input)="editField($event, element, 'promotion_percent')" 
+      (blur)="OnBlurField($event, element, 'promotion_percent')" contenteditable>{{element.promotion_percent}}</td>
     </ng-container>
 
     <ng-container matColumnDef="sold_number">
@@ -54,11 +54,6 @@
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let element">{{element.description}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="availability">
-      <th mat-header-cell *matHeaderCellDef>Availability</th>
-      <td mat-cell *matCellDef="let element">{{element.availability}}</td>
     </ng-container>
 
     <!-- Table rows -->

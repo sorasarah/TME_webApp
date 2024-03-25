@@ -119,15 +119,19 @@ class ProductsList(APIView):
                         )
                     _product.save()
                       
+                new_promotion_percent = float(product["promotion_percent"])
+                print(new_promotion_percent)
                 # Gestion des calculs de promotions
-                if product["promotion_percent"] != 0 :
+                if new_promotion_percent != 0 :
+                    print(product["promotion_percent"])
+                    print("je suis dans le if de promo")
                     _product.promotion_status = True
                     _product.promotion_price = float(product['sold_price']) - ((float(product['sold_price']) * float(product['promotion_percent']))/ 100)
                     _product.promotion_percent = float(product['promotion_percent'])  
                     # print(_product.promotion_status, _product.promotion_price, _product.promotion_percent)
                     _product.save()
                 else : 
-                    # print("je suis dans le else")
+                    print("je suis dans le else de promo")
                     _product.promotion_status = False
                     _product.promotion_percent = 0
                     _product.promotion_price = 0

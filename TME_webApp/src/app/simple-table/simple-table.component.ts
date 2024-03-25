@@ -10,7 +10,6 @@ export interface ProductData {
   sold_price: number;
   quantity: number;
   description: string;
-  availability: boolean;
   promotion_status: boolean;
   promotion_price: number;
   promotion_percent: number;
@@ -34,7 +33,7 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
 
   constructor(private apiService: ApiService) { }
 
-  displayedColumns: string[] = ['name', 'purchase_price', 'sold_price', 'quantity', 'description', 'availability', 'promotion_status', 'promotion_percent', 'promotion_price', 'sold_number'];
+  displayedColumns: string[] = ['name', 'purchase_price', 'sold_price', 'quantity', 'description', 'promotion_status', 'promotion_percent', 'promotion_price', 'sold_number'];
   dataSource = new MatTableDataSource<ProductData>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -75,6 +74,7 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
 
   updateProduct(newData: any[]) {
     this.apiService.updateData(newData).subscribe(response => {
+      window.location.reload();
       console.log('Product updated successfully:', response);
       // Mettre à jour les données locales si nécessaire
     }, error => {
@@ -92,51 +92,18 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
 
     // Mettez à jour le champ correspondant dans l'objet élément
     if (fieldName === 'quantity') {
-
-      //je vérifie si la qunatité est inférieur à la précédente
-      if (parseFloat(newValue) < element.quantity) {
-        const difference = element.quantity - parseFloat(newValue);
-        element.sold_number += difference;
-        console.log('je suis dans la différence')
-      }
-
       element.quantity = parseFloat(newValue);
-      console.log('je suis dans quantity')
-
-      
-    } 
+      console.log('coucou')
+    }
     if (fieldName === 'sold_price') {
       element.sold_price = parseFloat(newValue);
-      console.log('je suis dans sold_price')
-    } 
+    }
     if (fieldName === 'promotion_percent') {
       element.promotion_percent = parseFloat(newValue);
-      console.log('je suis dans promotion_percent')
-      // Mise à jour du promotion_status
-      if (element.promotion_percent === 0) {
-        // Mettez à jour promotion_price
-        element.promotion_price = element.sold_price * (element.promotion_percent / 100);
-        console.log(element.promotion_price)
-        console.log('je suis dans maj promotion_price')
-        // Mettez à jour promotion_status à true
-        element.promotion_status = true;
-      } else {
-        element.promotion_status = false;
-        console.log('je reste avec le statut false')
-      }
-
+      console.log('je suis dans percent promo')
     }
-    if (fieldName === 'promotion_price') {
-      element.promotion_price = parseFloat(newValue);
-      console.log('je suis dans promotion_price')
-    } 
     if (fieldName === 'sold_number') {
       element.sold_number === parseFloat(newValue);
-      console.log('je suis dans sold_number')
-    } 
-    if (fieldName === 'promotion_status') {
-      element.promotion_status = newValue.toLowerCase() === 'true';
-      console.log('je suis dans statut promotion changé à true')
     }
 
     // Si l'élément n'est pas déjà dans editedElements, ajoutez-le
@@ -172,7 +139,9 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
       this.onEditProduct()
     }
 
-    
+  }
+  clearInput(event: any): void {
+    event.target.innerText = '';
   }
 
   // Function cancel les modif
@@ -182,4 +151,5 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
   }
 
 }
+
 

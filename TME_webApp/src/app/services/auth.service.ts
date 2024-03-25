@@ -6,18 +6,6 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 
-// export class AuthService {
-//   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
-
-//   login(username: string, password: string) {
-//     return this.http.post<any>('/api/token/', { username, password });
-//   }
-
-//   isAuthenticated(): boolean {
-//     const token = localStorage.getItem('access_token');
-//     return !this.jwtHelper.isTokenExpired(token);
-//   }
-// }
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000/';
 
