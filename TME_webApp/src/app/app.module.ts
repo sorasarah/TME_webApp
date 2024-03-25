@@ -22,10 +22,11 @@ import { LoginComponent } from './login/login.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SoldGraphComponent } from './sold-graph/sold-graph.component';
 import { MargeGraphComponent } from './marge-graph/marge-graph.component';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+
 // import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 
@@ -57,12 +58,13 @@ import { MatNativeDateModule } from '@angular/material/core';
     HttpClientModule,
     FormsModule,
     NgChartsModule,
-    MatInputModule,
-    MatDatepickerModule,
     MatFormFieldModule,
-    MatNativeDateModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
