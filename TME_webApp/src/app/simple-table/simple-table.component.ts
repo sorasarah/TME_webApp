@@ -173,10 +173,12 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     } else {
       console.log('je suis dans le else de blur')
       this.onEditProduct()
-    }
-
-    
+    } 
   }
+  clearInput(event: any): void {
+  event.target.innerText = ''; // Clear the text content of the div
+}
+
 
   // Function cancel les modif
   OnCancel() {
