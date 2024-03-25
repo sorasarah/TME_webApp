@@ -11,14 +11,14 @@ class ProductEditSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = ['sold_price', 'quantity', 'promotion_percent', 'promotion_price', 'promotion_status', 'sold_number']
-        # fields = ['quantity']
-        # fields = ['promotion_percent']
 
 class TransactionsDataSerializer(ModelSerializer):
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = ['add_date', 'transaction_price', 'taxes', 'transaction']
+        # fields = '__all__'
         # fields = ['id']
+        
 
 class UsersListSerializer(ModelSerializer):
     class Meta:

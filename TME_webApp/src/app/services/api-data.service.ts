@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class ApiService {
 
   private apiUrl = 'http://localhost:8000/productsList/'
+  private apiTransUrl = 'http://localhost:8000/transactionsData/'
 
   constructor(private http: HttpClient) { }
 
@@ -23,5 +24,9 @@ export class ApiService {
     // On vérifie si l'ID est défini
     const url = this.apiUrl;
     return this.http.patch<any>(url, newData)
+  }
+
+  getTransData(): Observable<any> {
+    return this.http.get<any>(this.apiTransUrl);
   }
 }
