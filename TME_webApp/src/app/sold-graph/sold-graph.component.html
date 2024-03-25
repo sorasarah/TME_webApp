@@ -1,4 +1,16 @@
-<!-- <canvas #barChart></canvas> -->
+<div id="date_filter">
+  <mat-form-field>
+    <input matInput [matDatepicker]="startDatePicker" placeholder="Start Date" (dateInput)="startDateSelected($event)">
+    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker></mat-datepicker>
+  </mat-form-field>
+  
+  <mat-form-field>
+    <input matInput [matDatepicker]="endDatePicker" placeholder="End Date" (dateInput)="endDateSelected($event)">
+    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker></mat-datepicker>
+  </mat-form-field>
+</div>
 
 <div class="chart-container">
     <canvas id="transactionChart" width="150" height="50"></canvas>

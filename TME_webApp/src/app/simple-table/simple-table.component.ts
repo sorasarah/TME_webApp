@@ -93,31 +93,30 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     // Mettez à jour le champ correspondant dans l'objet élément
     if (fieldName === 'quantity') {
       element.quantity = parseFloat(newValue);
-      console.log('coucou')
     }
     if (fieldName === 'sold_price') {
       element.sold_price = parseFloat(newValue);
     }
     if (fieldName === 'promotion_percent') {
       element.promotion_percent = parseFloat(newValue);
-      console.log('je suis dans percent promo')
     }
     if (fieldName === 'sold_number') {
       element.sold_number === parseFloat(newValue);
     }
 
+    element.isEdited = true;
     // Si l'élément n'est pas déjà dans editedElements, ajoutez-le
     if (!this.editedElements.includes(element)) {
       this.editedElements.push(element);
     }
-
-    // Changement de couleur si édition
-    element.isEdited = true;
-    this.dataSource.data.forEach(item => {
-      if (item !== element) {
-        item.isEdited = false;
-      }
-    });
+    
+    // // Changement de couleur si édition
+    // element.isEdited = true;
+    // this.dataSource.data.forEach(item => {
+    //   if (item !== element) {
+    //     item.isEdited = false;
+    //   }
+    // });
     // Active le bouton annuler s'il y a une modification
     this.isAnyEdited = this.editedElements.some(element => element.isEdited);
   }
@@ -128,6 +127,8 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     this.updateProduct(this.editedElements.map(a => ({ ...a })))
     // Une fois les modifications envoyées, videz la liste editedElements
     this.editedElements = [];
+
+    this.isAnyEdited = false;
   }
 
   OnBlurField(event: any, element: ProductData, fieldName: string) {
@@ -136,13 +137,17 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     if (isNaN(parseFloat(newValue))) {
       window.alert('Un des champs comprends une valeur incorrect. Veuillez renseigner une valeur numérique ?');
     } else {
-      this.onEditProduct()
+      //met en place le update automatique au bout de 3 minutes
+      setTimeout(()=>{
+        if(element.isEdited){
+          this.onEditProduct();
+        }
+      }, 180000)
     } 
   }
-//   clearInput(event: any): void {
-//   event.target.innerText = ''; // Clear the text content of the div
-// }
-
+  clearInput(event: any): void {
+  event.target.innerText = ''; // Clear the text content of the div
+}
 
   // Function cancel les modif
   OnCancel() {
