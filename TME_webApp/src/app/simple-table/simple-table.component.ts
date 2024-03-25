@@ -27,7 +27,6 @@ export interface ProductData {
   styleUrls: ['./simple-table.component.css'],
 })
 
-
 export class SimpleTableComponent implements AfterViewInit, OnInit {
 
   editedElements: ProductData[] = [];
@@ -37,7 +36,6 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['name', 'purchase_price', 'sold_price', 'quantity', 'description', 'availability', 'promotion_status', 'promotion_percent', 'promotion_price', 'sold_number'];
   dataSource = new MatTableDataSource<ProductData>();
-
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -169,9 +167,8 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     const newValue = event.target.innerText;
 
     if (isNaN(parseFloat(newValue))) {
-      window.alert('Un des champs comprends une valeur incorrect. Veuillez renseigner une valeur numérique !');
+      window.alert('Un des champs comprends une valeur incorrect. Veuillez renseigner une valeur numérique ?');
     } else {
-      console.log('je suis dans le else de blur')
       this.onEditProduct()
     }
 
