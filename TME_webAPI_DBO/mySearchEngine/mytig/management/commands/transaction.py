@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Command(BaseCommand):
-    help = 'Ajoute des données de produits à la base de données'
+    help = 'Ajoute des données des transactions à la base de données'
     
     def handle(self, *args, **kwargs):
         data = [

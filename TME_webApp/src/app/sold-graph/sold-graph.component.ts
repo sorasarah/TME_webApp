@@ -1,6 +1,6 @@
+import { ApiService } from './../services/api-data.service';
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartItem } from 'chart.js/auto';
-import { ApiService } from '../services/api-data.service';
 
 export interface TransactionData {
   id: number;

@@ -50,6 +50,7 @@
       <th mat-header-cell *matHeaderCellDef>Quantity</th>
       <td mat-cell *matCellDef="let element" [class.editedValue]="element.isEdited"
         (input)="editField($event, element, 'quantity')" (click)="clearInput($event)"
+        (input)="editField($event, element, 'quantity')" (click)="clearInput($event)"
         (blur)="OnBlurField($event, element, 'quantity')" contenteditable>{{element.quantity}}</td>
     </ng-container>
 

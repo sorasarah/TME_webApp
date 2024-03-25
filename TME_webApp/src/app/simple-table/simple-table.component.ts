@@ -92,23 +92,19 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     // Mettez à jour le champ correspondant dans l'objet élément
     if (fieldName === 'quantity') {
       element.quantity = parseFloat(newValue);
-      console.log('coucou')
     }
     if (fieldName === 'sold_price') {
       element.sold_price = parseFloat(newValue);
     }
     if (fieldName === 'promotion_percent') {
       element.promotion_percent = parseFloat(newValue);
-      console.log('je suis dans percent promo')
     }
     if (fieldName === 'sold_number') {
       element.sold_number === parseFloat(newValue);
     }
-  
-    // Marquer l'élément comme édité
+
     element.isEdited = true;
-  
-    // Ajouter l'élément à la liste des éléments édités s'il n'est pas déjà présent
+    // Si l'élément n'est pas déjà dans editedElements, ajoutez-le
     if (!this.editedElements.includes(element)) {
       this.editedElements.push(element);
     }
@@ -124,8 +120,7 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
   
     // Vider la liste des éléments édités
     this.editedElements = [];
-  
-    // Réinitialiser l'état indiquant s'il y a des modifications non sauvegardées
+
     this.isAnyEdited = false;
   }
 
@@ -135,20 +130,17 @@ export class SimpleTableComponent implements AfterViewInit, OnInit {
     if (isNaN(parseFloat(newValue))) {
       window.alert('Un des champs comprends une valeur incorrect. Veuillez renseigner une valeur numérique ?');
     } else {
-      // Delay the update by a certain amount of time
-      setTimeout(() => {
-        // Check if the element is still marked as edited
-        if (element.isEdited) {
-          // If it is, trigger the update
+      //met en place le update automatique au bout de 3 minutes
+      setTimeout(()=>{
+        if(element.isEdited){
           this.onEditProduct();
         }
-      }, 60000); // Adjust the delay time as needed
-    }
+      }, 180000)
+    } 
   }
   clearInput(event: any): void {
   event.target.innerText = ''; // Clear the text content of the div
 }
-
 
   // Function cancel les modif
   OnCancel() {
