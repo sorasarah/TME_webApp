@@ -47,6 +47,11 @@ class LoginView(APIView):
     def protected_view(request):
         return Response({'message': 'This is a protected endpoint'})
         
+
+    
+from rest_framework.authtoken.models import Token
+
+        
 class Login(APIView):
     def post(self, request):
         username = request.data.get('username')

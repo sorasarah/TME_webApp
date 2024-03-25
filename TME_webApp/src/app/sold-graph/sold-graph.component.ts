@@ -1,7 +1,6 @@
 import { ApiService } from './../services/api-data.service';
 import { Component, OnInit } from '@angular/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { Chart } from 'chart.js/auto';
+import { Chart, ChartItem } from 'chart.js/auto';
 
 export interface TransactionData {
   id: number;
@@ -17,92 +16,100 @@ export interface TransactionData {
 })
 export class SoldGraphComponent implements OnInit {
   chart: any;
-  startDate: Date = new Date;
-  endDate: Date = new Date;
+  startDate: Date = new Date(); // Initialise avec la date d'aujourd'hui
+  endDate: Date = new Date(); // Initialise avec la date d'aujourd'hui
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    // this.fetchDataAndRenderChart();
+    this.loadData();
+     this.startDate.setDate(this.endDate.getDate()-6);
+    // this.endDate.setDate(this.endDate.getDate()+7);
+  }
+
+  loadData(): void {
     this.apiService.getTransData().subscribe(
-      (res) => {
+      (res: TransactionData[]) => {
         console.log('Transaction API Response:', res);
-        const aggregatedData = this.aggregateData(res);
+        const filteredData = this.filterDataByDateRange(res);
+        const aggregatedData = this.aggregateData(filteredData);
         this.renderChart(aggregatedData);
-      }, (error) => {
+      },
+      (error: any) => {
         console.error('Transaction API Error:', error);
       }
     );
   }
-
-  startDateSelected(event: MatDatepickerInputEvent<Date>) {
-    // Handle start date selection here
-    console.log('Start date selected:', event.value);
-    // You can perform further actions like updating the start date property or triggering a data refresh
-  }
-
-  endDateSelected(event: MatDatepickerInputEvent<Date>) {
-    // Handle end date selection here
-    console.log('End date selected:', event.value);
-    // You can perform further actions like updating the end date property or triggering a data refresh
+  
+  filterDataByDateRange(data: TransactionData[]): TransactionData[] {
+    // Filtrer les données en fonction de la plage de dates
+    console.log("data :", data);
+    let filteredDatas = data.filter(entry => {
+      const entryDate = new Date(entry.add_date);
+      return entryDate >= this.startDate && entryDate <= this.endDate;
+    });
+    console.log(this.startDate);
+    console.log(filteredDatas);
+    
+    
+    return filteredDatas;
   }
   
   aggregateData(data: any[]): any {
-    const aggregated: { [year: number]: { [month: number]: { [week: number]: { [day: number]: { purchases: number, sales: number } } } } } = {};
+    const aggregated: { [year: number]: { [month: number]: { [day: number]: { purchases: number, sales: number } } } } = {};
     data.forEach(entry => {
-      console.log(data)
         const date = new Date(entry.add_date);
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
-        const week = this.getWeekNumber(date);
         const day = date.getDate();
 
         aggregated[year] = aggregated[year] || {};
         aggregated[year][month] = aggregated[year][month] || {};
-        aggregated[year][month][week] = aggregated[year][month][week] || {};
-        aggregated[year][month][week][day] = aggregated[year][month][week][day] || { purchases: 0, sales: 0 };
+        aggregated[year][month][day] = aggregated[year][month][day] || { purchases: 0, sales: 0 };
       
         if (entry.transaction === '1') {
-            aggregated[year][month][week][day].purchases += entry.transaction_price;
+            aggregated[year][month][day].purchases += entry.transaction_price;
         } else if (entry.transaction === '0') {
-            aggregated[year][month][week][day].sales += entry.transaction_price;
+            aggregated[year][month][day].sales += entry.transaction_price;
         }
     });
     return aggregated;
-}
+  }
 
   renderChart(data: any): void {
-    // Extract purchases and sales data from aggregated data
+    if (this.chart) {
+      this.chart.destroy(); // Détruire l'instance du graphique existant
+    }
+    // Extraire les données d'achats et de ventes des données agrégées
     const labels = [];
     const purchasesData = [];
     const salesData = [];
-    // Loop through aggregated data and push the values to the respective arrays
+    // Parcourir les données agrégées et pousser les valeurs dans les tableaux respectifs
     for (const year in data) {
       for (const month in data[year]) {
-        for (const week in data[year][month]) {
-          for (const day in data[year][month][week]) {
-            labels.push(`${year}-${month}-${day}`);
-            purchasesData.push(data[year][month][week][day].purchases);
-            salesData.push(data[year][month][week][day].sales);
-          }
+        for (const day in data[year][month]) {
+          labels.push(`${year}-${month}-${day}`);
+          purchasesData.push(data[year][month][day].purchases);
+          salesData.push(data[year][month][day].sales);
         }
       }
     }
-    // Render chart here using Chart.js
-    this.chart = new Chart('transactionChart', {
+    // Rendre le graphique ici en utilisant Chart.js
+    const ctx = document.getElementById('transactionChart');
+    this.chart = new Chart(ctx as ChartItem, {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [{
           label: 'Purchases',
           data: purchasesData,
-          // fill: false,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
         }, {
           label: 'Sales',
           data: salesData,
-          // fill: false,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
         }]
@@ -117,6 +124,10 @@ export class SoldGraphComponent implements OnInit {
     });
   }
 
+  applyDateFilter(): void {
+    this.loadData(); // Recharger les données en fonction de la nouvelle plage de dates
+  }
+
   getWeekNumber(date: Date): number {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const dayOfYear = Math.floor((date.getTime() - firstDayOfYear.getTime()) / 86400000);
@@ -124,4 +135,7 @@ export class SoldGraphComponent implements OnInit {
   }
 }
 
+//chart1:CA----------- vente:"50";par jour,par semaine, par mois, par ans
+//chart2: Marge------------- pour un ans total ventes moins total achat
+//chart2: impot ------------ si marge est plus grand que 0 marge*30 %
 

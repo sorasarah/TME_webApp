@@ -1,4 +1,4 @@
-.grid-container {
+/* .grid-container {
   margin: 20px;
 }
 
@@ -18,4 +18,35 @@
 
 .dashboard-card-content {
   text-align: center;
+} */
+
+.grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+}
+
+.graph1{
+  justify-content: start;
+  margin: 10px;
+}
+.graph2{
+  justify-content: end;
+  margin: 10px;
+}
+/* .column {
+  flex: 1;
+  margin: 5px;
+} */
+#soldGraph{
+  height: 600px;
+  width: 1000px;
+}
+#margeGraph{
+  height: 300px;
+  width: 300px;
 }
