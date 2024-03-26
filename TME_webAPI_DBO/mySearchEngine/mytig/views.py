@@ -16,7 +16,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
-
 # --------------------------partie login-------------------------------
 import json
 from django.contrib.auth import authenticate
@@ -51,7 +50,6 @@ class LoginView(APIView):
     
 from rest_framework.authtoken.models import Token
 
-        
 class Login(APIView):
     def post(self, request):
         username = request.data.get('username')

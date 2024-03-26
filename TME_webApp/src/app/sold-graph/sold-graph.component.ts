@@ -30,7 +30,7 @@ export class SoldGraphComponent implements OnInit {
   loadData(): void {
     this.apiService.getTransData().subscribe(
       (res: TransactionData[]) => {
-        console.log('Transaction API Response:', res);
+        // console.log('Transaction API Response:', res);
         const filteredData = this.filterDataByDateRange(res);
         const aggregatedData = this.aggregateData(filteredData);
         this.renderChart(aggregatedData);
@@ -43,15 +43,16 @@ export class SoldGraphComponent implements OnInit {
   
   filterDataByDateRange(data: TransactionData[]): TransactionData[] {
     // Filtrer les données en fonction de la plage de dates
-    console.log("data :", data);
+    // console.log("data :", data);
     let filteredDatas = data.filter(entry => {
       const entryDate = new Date(entry.add_date);
       return entryDate >= this.startDate && entryDate <= this.endDate;
     });
-    console.log(this.startDate);
-    console.log(filteredDatas);
-    
-    
+    // console.log(this.startDate);
+    // console.log(filteredDatas);
+    const totalPurchasePrice = this.aggregatePurchaseSoldPrices(filteredDatas);
+    // console.log("Total purchase price:", totalPurchasePrice);
+
     return filteredDatas;
   }
   
@@ -132,6 +133,22 @@ export class SoldGraphComponent implements OnInit {
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
     const dayOfYear = Math.floor((date.getTime() - firstDayOfYear.getTime()) / 86400000);
     return Math.ceil((dayOfYear + firstDayOfYear.getDay() + 1) / 7);
+  }
+
+  // calcul du chiffre d'affaire
+  aggregatePurchaseSoldPrices(data: TransactionData[]): number {
+    let totalPurchasePrice = 0;
+    let totalSoldPrice = 0;
+    data.forEach(entry => {
+      if (entry.transaction === '1') {
+        totalPurchasePrice += entry.transaction_price;
+        // console.log(totalPurchasePrice)
+      }
+      if (entry.transaction === '0') {
+        totalSoldPrice += entry.transaction_price;
+      }
+    });
+    return totalPurchasePrice;
   }
 }
 

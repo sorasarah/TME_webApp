@@ -1,5 +1,6 @@
 import { Component, OnInit  } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+import { ApiService } from './../services/api-data.service';
 
 @Component({
   selector: 'app-marge-graph',
@@ -8,28 +9,26 @@ import { Chart } from 'chart.js/auto';
 })
 export class MargeGraphComponent implements OnInit {
   chart: any;
+  transactionType: any[] = [];
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.fetchDataAndRenderChart();
   }
 
   fetchDataAndRenderChart(): void {
-    const jsonData = [ 
-      { "transaction_type": "purchase", "date": "2023-01-01", "amount": 500 },
-      { "transaction_type": "sale", "date": "2022-01-05", "amount": 300 },
-      { "transaction_type": "sale", "date": "2023-01-10", "amount": 700 },
-      { "transaction_type": "purchase", "date": "2023-01-15", "amount": 400 },
-      { "transaction_type": "sale", "date": "2024-01-20", "amount": 600 },
-      { "transaction_type": "purchase", "date": "2023-03-01", "amount": 500 },
-      { "transaction_type": "sale", "date": "2022-03-05", "amount": 300 },
-      { "transaction_type": "sale", "date": "2023-09-10", "amount": 700 },
-      { "transaction_type": "purchase", "date": "2024-01-15", "amount": 400 },
-      { "transaction_type": "sale", "date": "2024-07-20", "amount": 600 }
-    ];
-    const aggregatedData = this.aggregateData(jsonData);
-    this.renderChart(aggregatedData);
+    this.apiService.getTransData().subscribe(
+      (data) => {
+        // console.log('Transaction API Response:', data);
+        this.transactionType = data;
+        const aggregatedData = this.aggregateData(this.transactionType);
+        this.renderChart(aggregatedData);
+      },
+      (error) => {
+        console.error('Transaction API Error:', error);
+      }
+    );
   }
 
   aggregateData(data: any[]): any {
@@ -37,15 +36,27 @@ export class MargeGraphComponent implements OnInit {
     data.forEach(entry => {
       const date = new Date(entry.date);
       const year = date.getFullYear();
+      console.log("year", year)
       if (!aggregated[year]) {
         aggregated[year] = { purchases: 0, sales: 0 };
       }
-      if (entry.transaction_type === 'purchase') {
-        aggregated[year].purchases += entry.amount;
-      } else if (entry.transaction_type === 'sale') {
-        aggregated[year].sales += entry.amount;
+
+      if (entry.transaction === '1') {
+        aggregated[year].purchases += parseFloat(entry.transaction_price);
+      } else if (entry.transaction === '0') {
+        aggregated[year].sales += parseFloat(entry.transaction_price);
+        // aggregated[year].CA += parseFloat(entry.transaction_price);
       }
+      // console.log("tran vente", aggregated[year].sales, aggregated[year].CA);
+      // console.log("tran achat", aggregated[year].purchases);
     });
+
+    // Calculate Marge (difference)
+    // Object.keys(aggregated).forEach(year => {
+    //   aggregated[parseInt(year)].Marge = aggregated[parseInt(year)].sales - aggregated[parseInt(year)].purchases;
+    //   console.log(aggregated[parseInt(year)].Marge)
+    // });
+
     return aggregated;
   }
 
@@ -53,26 +64,28 @@ export class MargeGraphComponent implements OnInit {
     console.log('Rendering chart with data:', data);
     const years = Object.keys(data);
     const differences = years.map(year => data[year].sales - data[year].purchases);
+    // const diffValue = parseInt(differences[])
+    // const taxe = (30 * differences ) / 100
     const chartData = {
       labels: years,
       datasets: [{
-        label: 'Difference (Sales - Purchases)',
+        label: 'Marge €',
         data: differences,
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
-          'rgba(153, 102, 255, 0.5)',
-          'rgba(255, 159, 64, 0.5)'
+          // 'rgba(255, 99, 132, 0.5)', //pink
+          // 'rgba(54, 162, 235, 0.5)', //blue
+          // 'rgba(255, 206, 86, 0.5)', //yellow
+          // 'rgba(75, 192, 192, 0.5)', //green
+          'rgba(153, 102, 255, 0.5)', //purple
+          // 'rgba(255, 159, 64, 0.5)' //orange
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
+          'rgba(255, 99, 132, 1)', //pink
+          // 'rgba(54, 162, 235, 1)', //blue
+          // 'rgba(255, 206, 86, 1)', //yellow
+          // 'rgba(75, 192, 192, 1)', //green
+          // 'rgba(153, 102, 255, 1)', //purple
+          // 'rgba(255, 159, 64, 1)' //orange
         ],
         borderWidth: 1
       }]
@@ -88,7 +101,7 @@ export class MargeGraphComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Difference Between Sales and Purchases by Year'
+            text: 'somme des ventes - sommes des achats'
           }
         }
       }
