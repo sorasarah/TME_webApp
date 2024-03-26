@@ -14,7 +14,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-
+from rest_framework.authtoken.models import Token
 
 # --------------------------partie login-------------------------------
 import json
@@ -46,6 +46,10 @@ class LoginView(APIView):
     def protected_view(request):
         return Response({'message': 'This is a protected endpoint'})
         
+
+    
+from rest_framework.authtoken.models import Token
+
 class Login(APIView):
     def post(self, request):
         username = request.data.get('username')
@@ -63,8 +67,6 @@ class Login(APIView):
 
 # --------------------------partie product-------------------------------
 class ProductsList(APIView):
-    # permission_classes = [IsAuthenticated]
-    
     def get(self, request, format=None):
         # Récupérer tous les produits depuis la base de données
         products = Product.objects.all()
@@ -148,9 +150,7 @@ class ProductsList(APIView):
 from rest_framework.authtoken.models import Token
     
 # --------------------------partie transaction-------------------------------
-class TransactionsData(APIView):
-    # permission_classes = [IsAuthenticated]
-    
+class TransactionsData(APIView):    
     def get(self, request, format=None):
         transactionsData = Transaction.objects.all()
         serializer = TransactionsDataSerializer(transactionsData, many=True)

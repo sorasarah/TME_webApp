@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TransactionData } from '../sold-graph/sold-graph.component';
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,5 @@ export class ApiService {
   getTransData(): Observable<any> {
     return this.http.get<any>(this.apiTransUrl);
   }
+
 }

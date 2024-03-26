@@ -11,7 +11,6 @@ class Command(BaseCommand):
                 "username": "FishOcean",
                 "password": "fishOcean123",
             }
-            # Add more user data if needed
         ]
         
         for user_data in data:       
