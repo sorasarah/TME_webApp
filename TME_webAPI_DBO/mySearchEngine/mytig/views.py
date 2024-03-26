@@ -142,6 +142,7 @@ class ProductsList(APIView):
                     
             _product.quantity = product["quantity"]  
             _product.sold_price = product["sold_price"] 
+            print(_product.sold_price)
             _product.save()
             return Response(status=status.HTTP_207_MULTI_STATUS)  
         except Exception as e:

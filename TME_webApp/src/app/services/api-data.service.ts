@@ -27,9 +27,9 @@ export class ApiService {
   }
 
   updateData(newData: any[]): Observable<any> {
-    // On vérifie si l'ID est défini
-    const url = this.apiUrl;
-    return this.http.patch<any>(url, newData)
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.patch<any>(`${this.apiUrl}`, newData, { headers })
   }
 
   getTransData(): Observable<any> {
