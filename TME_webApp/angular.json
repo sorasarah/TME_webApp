@@ -91,7 +91,19 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/chart.js/dist/chart.js",
+                "inject": true,
+                "bundleName": "chart"
+              },
+              {
+                "input": "node_modules/chartjs-chart-box-and-violin-plot/build/chartjs-chart-box-and-violin-plot.js",
+                "inject": true,
+                "bundleName": "chartjs-chart-box-and-violin-plot"
+              }
+            ]
+            
           }
         }
       }

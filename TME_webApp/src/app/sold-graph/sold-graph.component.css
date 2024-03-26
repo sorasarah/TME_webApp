@@ -1,0 +1,9 @@
+.applyButton {
+    background-color: #22659C;
+    margin-left: 30px;
+
+}
+
+.applyButton .mdc-button__label{
+    color: white;
+}

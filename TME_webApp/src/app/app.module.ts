@@ -26,6 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { TaxesGraphComponent } from './taxes-graph/taxes-graph.component';
 
 // import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
@@ -38,7 +39,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     SimpleTableComponent,
     LoginComponent,
     SoldGraphComponent,
-    MargeGraphComponent
+    MargeGraphComponent,
+    TaxesGraphComponent
   ],
   imports: [
     BrowserModule,

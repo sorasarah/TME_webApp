@@ -1,14 +1,5 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Transactions</mat-card-title>
-    </mat-card-header>
-    <mat-card-content id="soldGraph">
-      <app-sold-graph></app-sold-graph>
-    </mat-card-content>
-  </mat-card>
   
   <div class="row">
     <div class="graph1">
@@ -24,13 +15,22 @@
     <div class="graph2">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Marge</mat-card-title>
+          <mat-card-title>Taxes</mat-card-title>
         </mat-card-header>
         <mat-card-content id="margeGraph">
-          <!-- <app-marge-graph></app-marge-graph> -->
+          <app-taxes-graph></app-taxes-graph>
         </mat-card-content>
       </mat-card>
     </div>
   </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Transactions</mat-card-title>
+    </mat-card-header>
+    <mat-card-content id="soldGraph">
+      <app-sold-graph></app-sold-graph>
+    </mat-card-content>
+  </mat-card>
 
 </div>

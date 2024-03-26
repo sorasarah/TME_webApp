@@ -8,6 +8,41 @@ class Command(BaseCommand):
     
     def handle(self, *args, **kwargs):
         data = [
+             {
+                "transaction": '0',
+                "add_date": datetime(2022, 3, 18, 10, 0, 0),
+                "transaction_price": 1753.78,
+            },
+            {
+                "transaction": '1',
+                "add_date": datetime(2022, 5, 19, 10, 0, 0),
+                "transaction_price": 2560.00,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 1, 22, 10, 0, 0),
+                "transaction_price": 1560.78,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 2, 24, 10, 0, 0),
+                "transaction_price": 2899.80,
+            },
+             {
+                "transaction": '0',
+                "add_date": datetime(2022, 3, 22, 10, 0, 0),
+                "transaction_price": 1560.78,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 7, 24, 10, 0, 0),
+                "transaction_price": 2899.80,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 9, 25, 10, 0, 0),
+                "transaction_price": 989.80,
+            },
             {
                 "transaction": '1',
                 "add_date": datetime(2023, 11, 30, 10, 0, 0),
@@ -16,37 +51,37 @@ class Command(BaseCommand):
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 1, 10, 0, 0),
-                "transaction_price": 569.68,
+                "transaction_price": 23569.68,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 3, 10, 0, 0),
-                "transaction_price": 980.96,
+                "transaction_price": 18980.96,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 5, 10, 0, 0),
-                "transaction_price": 600.23,
+                "transaction_price": 5600.23,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 5, 10, 0, 0),
-                "transaction_price": 453.78,
+                "transaction_price": 8453.78,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 8, 10, 0, 0),
-                "transaction_price": 753.78,
+                "transaction_price": 9753.78,
             },
             {
                 "transaction": '1',
                 "add_date": datetime(2023, 12, 11, 10, 0, 0),
-                "transaction_price": 1700.90,
+                "transaction_price": 700.90,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2023, 12, 13, 10, 0, 0),
-                "transaction_price": 453.25,
+                "transaction_price": 1453.25,
             },
             {
                 "transaction": '0',
@@ -56,7 +91,7 @@ class Command(BaseCommand):
             {
                 "transaction": '1',
                 "add_date": datetime(2023, 12, 18, 10, 0, 0),
-                "transaction_price": 2560.00,
+                "transaction_price": 560.00,
             },
             {
                 "transaction": '0',
@@ -71,7 +106,7 @@ class Command(BaseCommand):
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 1, 25, 10, 0, 0),
-                "transaction_price": 989.80,
+                "transaction_price": 5989.80,
             },
             {
                 "transaction": '1',
@@ -81,7 +116,7 @@ class Command(BaseCommand):
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 1, 28, 10, 0, 0),
-                "transaction_price": 569.68,
+                "transaction_price": 2569.68,
             },
             {
                 "transaction": '0',
@@ -111,17 +146,17 @@ class Command(BaseCommand):
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 3, 13, 10, 0, 0),
-                "transaction_price": 453.25,
+                "transaction_price": 1453.25,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 3, 18, 10, 0, 0),
-                "transaction_price": 1753.78,
+                "transaction_price": 12753.78,
             },
             {
                 "transaction": '1',
                 "add_date": datetime(2024, 3, 19, 10, 0, 0),
-                "transaction_price": 2560.00,
+                "transaction_price": 560.00,
             },
             {
                 "transaction": '0',
@@ -131,13 +166,14 @@ class Command(BaseCommand):
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 3, 24, 10, 0, 0),
-                "transaction_price": 2899.80,
+                "transaction_price": 12899.80,
             },
             {
                 "transaction": '0',
                 "add_date": datetime(2024, 3, 25, 10, 0, 0),
-                "transaction_price": 989.80,
+                "transaction_price": 1989.80,
             },
+            
         ]
                 
         for trans_data in data:       
