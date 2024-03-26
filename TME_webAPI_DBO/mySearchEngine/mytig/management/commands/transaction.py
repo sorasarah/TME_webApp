@@ -8,6 +8,41 @@ class Command(BaseCommand):
     
     def handle(self, *args, **kwargs):
         data = [
+            { 
+             "transaction": '0',
+                "add_date": datetime(2022, 3, 18, 10, 0, 0),
+                "transaction_price": 1753.78,
+            },
+            {
+                "transaction": '1',
+                "add_date": datetime(2022, 5, 19, 10, 0, 0),
+                "transaction_price": 2560.00,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 1, 22, 10, 0, 0),
+                "transaction_price": 1560.78,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 2, 24, 10, 0, 0),
+                "transaction_price": 2899.80,
+            },
+             {
+                "transaction": '0',
+                "add_date": datetime(2022, 3, 22, 10, 0, 0),
+                "transaction_price": 1560.78,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 7, 24, 10, 0, 0),
+                "transaction_price": 2899.80,
+            },
+            {
+                "transaction": '0',
+                "add_date": datetime(2022, 9, 25, 10, 0, 0),
+                "transaction_price": 989.80,
+            },
             {
                 "transaction": '1',
                 "add_date": datetime(2023, 11, 30, 10, 0, 0),

@@ -5,7 +5,7 @@ import { Chart, ChartItem } from 'chart.js/auto';
 export interface TransactionData {
   id: number;
   transaction: string;
-  add_date: string; 
+  add_date: string;
   transaction_price: number;
 }
 
@@ -23,7 +23,7 @@ export class SoldGraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-     this.startDate.setDate(this.endDate.getDate()-6);
+    this.startDate.setDate(this.endDate.getDate() - 30);
     // this.endDate.setDate(this.endDate.getDate()+7);
   }
 
@@ -40,7 +40,7 @@ export class SoldGraphComponent implements OnInit {
       }
     );
   }
-  
+
   filterDataByDateRange(data: TransactionData[]): TransactionData[] {
     // Filtrer les données en fonction de la plage de dates
     // console.log("data :", data);
@@ -55,29 +55,31 @@ export class SoldGraphComponent implements OnInit {
 
     return filteredDatas;
   }
-  
+
   aggregateData(data: any[]): any {
     const aggregated: { [year: number]: { [month: number]: { [day: number]: { purchases: number, sales: number } } } } = {};
     data.forEach(entry => {
-        const date = new Date(entry.add_date);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
+      const date = new Date(entry.add_date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
 
-        aggregated[year] = aggregated[year] || {};
-        aggregated[year][month] = aggregated[year][month] || {};
-        aggregated[year][month][day] = aggregated[year][month][day] || { purchases: 0, sales: 0 };
-      
-        if (entry.transaction === '1') {
-            aggregated[year][month][day].purchases += entry.transaction_price;
-        } else if (entry.transaction === '0') {
-            aggregated[year][month][day].sales += entry.transaction_price;
-        }
+      aggregated[year] = aggregated[year] || {};
+      aggregated[year][month] = aggregated[year][month] || {};
+      aggregated[year][month][day] = aggregated[year][month][day] || { purchases: 0, sales: 0 };
+
+      if (entry.transaction === '1') {
+        aggregated[year][month][day].purchases += parseFloat(entry.transaction_price);
+      } else if (entry.transaction === '0') {
+        aggregated[year][month][day].sales += parseFloat(entry.transaction_price);
+      }
     });
     return aggregated;
   }
 
   renderChart(data: any): void {
+    console.log({ data });
+
     if (this.chart) {
       this.chart.destroy(); // Détruire l'instance du graphique existant
     }
@@ -95,6 +97,10 @@ export class SoldGraphComponent implements OnInit {
         }
       }
     }
+    console.log({ purchasesData, labels, salesData });
+
+
+
     // Rendre le graphique ici en utilisant Chart.js
     const ctx = document.getElementById('transactionChart');
     this.chart = new Chart(ctx as ChartItem, {
