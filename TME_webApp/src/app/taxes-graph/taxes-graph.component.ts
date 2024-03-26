@@ -8,6 +8,7 @@ interface TransactionDataMarge {
   add_date: string;
   transaction_price: number;
 }
+
 @Component({
   selector: 'app-taxes-graph',
   templateUrl: './taxes-graph.component.html',
@@ -60,7 +61,7 @@ export class TaxesGraphComponent implements OnInit {
     const chartData = {
       labels: years,
       datasets: [{
-        label: 'Impots annuel',
+        label: 'Taxes',
         data: taxes,
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
@@ -70,19 +71,11 @@ export class TaxesGraphComponent implements OnInit {
           'rgba(153, 102, 255, 0.5)',
           'rgba(255, 159, 64, 0.5)'
         ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
         borderWidth: 1
       }]
     };
     this.chart = new Chart('taxesChart', {
-      type: 'line',
+      type: 'polarArea', // Set chart type to polar area
       data: chartData,
       options: {
         responsive: true,
@@ -91,24 +84,11 @@ export class TaxesGraphComponent implements OnInit {
             position: 'top',
           },
           title: {
-            // display: true,
-            text: this.generateTitle(data),
+            display: true,
+            text: 'Impots par Année',
           }
         }
       }
     });
-  }
-
-  generateTitle(data: any): string {
-    let title = " ";
-    const years = Object.keys(data);
-    years.forEach(year => {
-      const difference = parseInt(data[year].sales) - parseInt(data[year].purchases);
-      const taxes = Math.abs(difference) * 0.3; // Calculate taxes as 30% of the absolute difference
-      const color = difference >= 0 ? 'green' : 'red';
-      title += `${year}: Taxes - ${taxes.toFixed(2)}€, `;
-    });
-    title = title.slice(0, -2);
-    return title;
   }
 }

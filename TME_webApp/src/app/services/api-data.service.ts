@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TransactionData } from '../sold-graph/sold-graph.component';
 
@@ -14,7 +14,12 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+     // Retrieve the JWT token from local storage
+     const token = localStorage.getItem('token');
+     // Set the Authorization header with the token
+     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+     // Make an authenticated GET request to the products endpoint
+     return this.http.get<any>(`${this.apiUrl}`, { headers });
   }
 
   postData(data: any): Observable<any> {
@@ -28,7 +33,12 @@ export class ApiService {
   }
 
   getTransData(): Observable<any> {
-    return this.http.get<any>(this.apiTransUrl);
+    // Retrieve the JWT token from local storage
+    const token = localStorage.getItem('token');
+    // Set the Authorization header with the token
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    // Make an authenticated GET request to the products endpoint
+    return this.http.get<any>(`${this.apiTransUrl}`, { headers });
   }
 
 }
