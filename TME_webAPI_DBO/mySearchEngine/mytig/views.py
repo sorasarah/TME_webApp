@@ -67,7 +67,7 @@ class Login(APIView):
 
 # --------------------------partie product-------------------------------
 class ProductsList(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, format=None):
         # Récupérer tous les produits depuis la base de données
@@ -153,7 +153,7 @@ from rest_framework.authtoken.models import Token
     
 # --------------------------partie transaction-------------------------------
 class TransactionsData(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, format=None):
         transactionsData = Transaction.objects.all()

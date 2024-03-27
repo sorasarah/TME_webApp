@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Chart from 'chart.js/auto'; // Import Chart from 'chart.js/auto'
+import { Chart } from 'chart.js/auto';
 import { ApiService } from '../services/api-data.service';
 
 interface TransactionDataMarge {
@@ -58,40 +58,34 @@ export class TaxesGraphComponent implements OnInit {
     const years = Object.keys(data);
     const differences = years.map(year => parseInt(data[year].sales) - parseInt(data[year].purchases));
     const taxes = differences.map(diff => Math.abs(diff) * 0.3); // Calculate taxes as 30% of the absolute difference
-    const averageTax = taxes.reduce((acc, curr) => acc + curr, 0) / taxes.length; // Calculate average tax
-
-    // Prepare the data for the box chart
-    const boxData = differences.map(diff => ({
-      q1: Math.min(diff, 0),
-      median: diff,
-      q3: Math.max(diff, 0),
-      whiskerMin: Math.min(diff, 0),
-      whiskerMax: Math.max(diff, 0),
-    }));
-
-    // Render the box chart
-    const ctx = document.getElementById('taxesChart');
-    this.chart = new Chart(ctx as HTMLCanvasElement, {
-      type: 'pie',
-      data: {
-        labels: years,
-        datasets: [{
-          label: 'Taxes',
-          data: boxData,
-          backgroundColor: 'rgba(54, 162, 235, 0.5)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
+    const chartData = {
+      labels: years,
+      datasets: [{
+        label: 'Taxes',
+        data: taxes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+          'rgba(75, 192, 192, 0.5)',
+          'rgba(153, 102, 255, 0.5)',
+          'rgba(255, 159, 64, 0.5)'
+        ],
+        borderWidth: 1
+      }]
+    };
+    this.chart = new Chart('taxesChart', {
+      type: 'polarArea', // Set chart type to polar area
+      data: chartData,
       options: {
         responsive: true,
         plugins: {
           legend: {
-            display: false,
+            position: 'top',
           },
           title: {
             display: true,
-            text: 'Taxes Box Chart'
+            text: 'Impot par Année',
           }
         }
       }
