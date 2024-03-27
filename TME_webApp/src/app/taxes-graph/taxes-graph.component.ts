@@ -85,7 +85,7 @@ export class TaxesGraphComponent implements OnInit {
           },
           title: {
             display: true,
-            text: 'Impot par Année',
+            text: 'Impots par Année',
           }
         }
       }
