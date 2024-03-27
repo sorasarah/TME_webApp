@@ -15,13 +15,13 @@ class ProductEditSerializer(ModelSerializer):
 class TransactionsDataSerializer(ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ['add_date', 'transaction_price', 'taxes', 'transaction']
-        # fields = '__all__'
-        # fields = ['id']
-        
+        fields = ['add_date', 'transaction_price', 'taxes', 'transaction']    
 
 class UsersListSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+
 

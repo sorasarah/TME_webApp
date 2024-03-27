@@ -10,11 +10,11 @@ interface TransactionDataMarge {
 }
 
 @Component({
-  selector: 'app-marge-graph',
-  templateUrl: './marge-graph.component.html',
-  styleUrls: ['./marge-graph.component.css']
+  selector: 'app-taxes-graph',
+  templateUrl: './taxes-graph.component.html',
+  styleUrls: ['./taxes-graph.component.css']
 })
-export class MargeGraphComponent implements OnInit {
+export class TaxesGraphComponent implements OnInit {
   chart: any;
   transactionType: any[] = [];
 
@@ -28,11 +28,7 @@ export class MargeGraphComponent implements OnInit {
     this.apiService.getTransData().subscribe(
       (res: TransactionDataMarge[]) => {
         this.transactionType = res;
-        // console.log(this.transactionType);
-
         const aggregatedData = this.aggregateData(this.transactionType);
-        // console.log("aggregatedData", aggregatedData);
-
         this.renderChart(aggregatedData);
       },
       (error: any) => {
@@ -44,35 +40,29 @@ export class MargeGraphComponent implements OnInit {
   aggregateData(data: any[]): any {
     const aggregated: { [year: number]: { purchases: number, sales: number } } = {};
     data.forEach(entry => {
-      // Convert add_date string to Date object
       const date = new Date(entry.add_date);
       const year = date.getFullYear();
-      // Ensure aggregated object has the year property initialized
       if (!aggregated[year]) {
         aggregated[year] = { purchases: 0, sales: 0 };
       }
-      // Check transaction type and update purchases or sales accordingly
-      if (entry.transaction === '1') { // Assuming '0' represents purchases
+      if (entry.transaction === '1') {
         aggregated[year].purchases += parseFloat(entry.transaction_price);
-
-      } else if (entry.transaction === '0') { // Assuming '1' represents sales
+      } else if (entry.transaction === '0') {
         aggregated[year].sales += parseFloat(entry.transaction_price);
-
       }
     });
     return aggregated;
   }
 
-
   renderChart(data: any): void {
-    // console.log('Rendering chart with data:', data);
     const years = Object.keys(data);
     const differences = years.map(year => parseInt(data[year].sales) - parseInt(data[year].purchases));
+    const taxes = differences.map(diff => Math.abs(diff) * 0.3); // Calculate taxes as 30% of the absolute difference
     const chartData = {
       labels: years,
       datasets: [{
-        label: 'Marge',
-        data: differences,
+        label: 'Taxes',
+        data: taxes,
         backgroundColor: [
           'rgba(255, 99, 132, 0.5)',
           'rgba(54, 162, 235, 0.5)',
@@ -81,19 +71,11 @@ export class MargeGraphComponent implements OnInit {
           'rgba(153, 102, 255, 0.5)',
           'rgba(255, 159, 64, 0.5)'
         ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
         borderWidth: 1
       }]
     };
-    this.chart = new Chart('margeChart', {
-      type: 'pie',
+    this.chart = new Chart('taxesChart', {
+      type: 'polarArea', // Set chart type to polar area
       data: chartData,
       options: {
         responsive: true,
@@ -103,24 +85,10 @@ export class MargeGraphComponent implements OnInit {
           },
           title: {
             display: true,
-            text: this.generateTitle(data),
+            text: 'Impots par Année',
           }
         }
       }
     });
   }
-
-     generateTitle(data: any): string {
-      let title = " ";
-      const years = Object.keys(data);
-      years.forEach(year => {
-        const difference = parseInt(data[year].sales) - parseInt(data[year].purchases);
-        const color = difference >= 0 ? 'green' : 'red'; // Use green for positive difference and red for negative difference
-        title += `${year}:${difference}€  - `;
-      });
-      // Remove the trailing comma and space
-      title = title.slice(0, -2);
-      return title;
-    }
-    
 }
