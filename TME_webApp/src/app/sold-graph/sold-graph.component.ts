@@ -23,7 +23,7 @@ export class SoldGraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-    this.startDate.setDate(this.endDate.getDate() - 30);
+     this.startDate.setDate(this.endDate.getMonth()-1);
     // this.endDate.setDate(this.endDate.getDate()+7);
   }
 
@@ -64,15 +64,15 @@ export class SoldGraphComponent implements OnInit {
       const month = date.getMonth() + 1;
       const day = date.getDate();
 
-      aggregated[year] = aggregated[year] || {};
-      aggregated[year][month] = aggregated[year][month] || {};
-      aggregated[year][month][day] = aggregated[year][month][day] || { purchases: 0, sales: 0 };
-
-      if (entry.transaction === '1') {
-        aggregated[year][month][day].purchases += parseFloat(entry.transaction_price);
-      } else if (entry.transaction === '0') {
-        aggregated[year][month][day].sales += parseFloat(entry.transaction_price);
-      }
+        aggregated[year] = aggregated[year] || {};
+        aggregated[year][month] = aggregated[year][month] || {};
+        aggregated[year][month][day] = aggregated[year][month][day] || { purchases: 0, sales: 0 };
+      
+        if (entry.transaction === '1') {
+            aggregated[year][month][day].purchases += parseFloat(entry.transaction_price);
+        } else if (entry.transaction === '0') {
+            aggregated[year][month][day].sales += parseFloat(entry.transaction_price);
+        }
     });
     return aggregated;
   }
@@ -87,6 +87,8 @@ export class SoldGraphComponent implements OnInit {
     const labels = [];
     const purchasesData = [];
     const salesData = [];
+    
+   
     // Parcourir les données agrégées et pousser les valeurs dans les tableaux respectifs
     for (const year in data) {
       for (const month in data[year]) {
@@ -97,10 +99,6 @@ export class SoldGraphComponent implements OnInit {
         }
       }
     }
-    console.log({ purchasesData, labels, salesData });
-
-
-
     // Rendre le graphique ici en utilisant Chart.js
     const ctx = document.getElementById('transactionChart');
     this.chart = new Chart(ctx as ChartItem, {
@@ -158,7 +156,4 @@ export class SoldGraphComponent implements OnInit {
   }
 }
 
-//chart1:CA----------- vente:"50";par jour,par semaine, par mois, par ans
-//chart2: Marge------------- pour un ans total ventes moins total achat
-//chart2: impot ------------ si marge est plus grand que 0 marge*30 %
 
