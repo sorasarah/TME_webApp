@@ -155,7 +155,3 @@ export class SoldGraphComponent implements OnInit {
   }
 }
 
-//chart1:CA----------- vente:"50";par jour,par semaine, par mois, par ans
-//chart2: Marge------------- pour un ans total ventes moins total achat
-//chart2: impot ------------ si marge est plus grand que 0 marge*30 %
-
